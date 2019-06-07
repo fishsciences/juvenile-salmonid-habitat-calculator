@@ -19,7 +19,7 @@ function(session, input, output) {
     
     rv$FL <- empty_data %>%
       filter(ForkLength_mm > cutoff) %>%
-      mutate(Proportion = drawnValues/sum(drawnValues)) %>% 
+      mutate(Proportion = drawnValues/sum(drawnValues)) %>%
       select(-Value)
   })
   
@@ -28,8 +28,26 @@ function(session, input, output) {
     rv$FL %>% mutate(HabitatProp = calc_territory_size(ForkLength_mm) * Proportion)
   })
   
-  output$fl_dist_table <- renderTable(select(flData(), -HabitatProp), digits = 4)
-  output$total_habitat <- renderText(round(sum(flData()$HabitatProp) * input$total_abundance* 10000)/10000)
-  output$total_abundance <- renderText(round(input$total_habitat / sum(flData()$HabitatProp)))
+  output$fl_dist_plot <- renderPlot({
+    ggplot(flData() %>% bind_rows(tibble(ForkLength_mm = 25, Proportion = 0)), aes(x = ForkLength_mm)) + # adding an entry at 25 mm to make bins line up
+      geom_histogram(aes(weight = Proportion), binwidth = 5, alpha = 0.5, color = "black") +
+      labs(x = "Fork length (mm)", y = "Proportion") +
+      scale_x_continuous(breaks = seq(25, 105, 5)) +
+      coord_cartesian(xlim = c(empty_data$ForkLength_mm)) +
+      theme_minimal()
+  })
+  
+  output$fl_dist_table = renderDT({
+    flData() %>% mutate(Proportion = round4dec(Proportion)) %>% select(-HabitatProp) %>% rename(`Fork length (mm)` = ForkLength_mm)
+  }, style = "bootstrap", rownames = FALSE,
+  options = list(pageLength = 16, bLengthChange = FALSE, bPaginate = TRUE, searching = FALSE))
+  
+  output$total_habitat <- renderText({
+    round4dec(sum(flData()$HabitatProp) * input$total_abundance)
+  })
+  
+  output$total_abundance <- renderText({
+    format(round(input$total_habitat / sum(flData()$HabitatProp)), big.mark = ",")
+  })
   
 }

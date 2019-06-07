@@ -6,7 +6,7 @@ fluidPage(
   titlePanel("Juvenile Salmonid Habitat Calculator"),
   hr(),
   fluidRow(
-    column(width = 8,
+    column(width = 7,
            shinydrawrUI("fl_dist_drawing"),
            p("Use mouse to draw a line representing a fork length distribution on plot above. Hold mouse button to draw. 
              Release mouse button to display (and update) fork length distribution. The drawn line must span the entire x-axis.
@@ -25,7 +25,11 @@ fluidPage(
              for the specified total abundance and total suitable habitat, respectively. The calculations are based on the salmonid territory 
              size-fork length relationship from Grant and Kramer (1990).")
     ),
-    column(width = 3, offset = 1,
-           h3("Fork length distribution"), tableOutput("fl_dist_table"))
+    column(width = 5,
+           h3("Fork length distribution"), 
+           plotOutput("fl_dist_plot"),
+           br(),
+           dataTableOutput("fl_dist_table")
+    )
   )
 )
