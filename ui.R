@@ -23,7 +23,10 @@ fluidPage(
            ),
            p("After drawing a fork length distribution, the value boxes display the total suitable habitat required and the total capacity  
              for the specified total abundance and total suitable habitat, respectively. The calculations are based on the salmonid territory 
-             size-fork length relationship from Grant and Kramer (1990).")
+             size-fork length relationship from Grant and Kramer (1990)."),
+           br(),
+           tags$a(href="https://github.com/fishsciences/juvenile-salmonid-habitat-calculator", "Code on GitHub"),
+           br()
     ),
     column(width = 5,
            h3("Fork length distribution"), 
