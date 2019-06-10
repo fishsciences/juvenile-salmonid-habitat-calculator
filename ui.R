@@ -16,16 +16,17 @@ fluidPage(
            fluidRow(
              column(width = 6,
                     numericInput("total_abundance", label = "Total abundance", min = 0, value = 100000, width = '100%'),
-                    valueBox(textOutput("total_habitat"), "Total suitable habitat (ha)", color = "yellow", width = NULL)),
+                    valueBox(textOutput("total_habitat"), "Total suitable habitat required (ha)", color = "yellow", width = NULL)),
              column(width = 6,
-                    numericInput("total_habitat", label = "Total suitable habitat (ha)", min = 0, value = 10, width = '100%'),
+                    numericInput("total_habitat", label = "Total suitable habitat available (ha)", min = 0, value = 10, width = '100%'),
                     valueBox(textOutput("total_abundance"), "Total capacity", color = "yellow", width = NULL))
            ),
            p("After drawing a fork length distribution, the value boxes display the total suitable habitat required and the total capacity  
              for the specified total abundance and total suitable habitat, respectively. The calculations are based on the salmonid territory 
              size-fork length relationship from Grant and Kramer (1990)."),
            br(),
-           tags$a(href="https://github.com/fishsciences/juvenile-salmonid-habitat-calculator", "Code on GitHub"),
+           p(tags$a(href="https://github.com/fishsciences/juvenile-salmonid-habitat-calculator", "Code on GitHub")),
+           p(tags$a(href="https://www.travishinkelman.com/post/free-drawing-distributions-with-shinysense/", "Blog post with more info")),
            br()
     ),
     column(width = 5,
